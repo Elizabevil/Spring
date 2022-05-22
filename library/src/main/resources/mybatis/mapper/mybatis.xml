@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eliza.library.mapper.IUserMapper">
+
+    <select id="getUserById" resultType="com.eliza.library.model.User">
+        SELECT t.*
+        FROM Spr.SprUser t
+        where id = #{id}
+    </select>
+
+
+</mapper>

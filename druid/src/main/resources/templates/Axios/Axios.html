@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" th:src="@{/js/axios.js}" src=""></script>
+    <script type="text/javascript" src="/js/axios.js"></script><!-- 加上此句话，（不管对应资源寸不存在）vue 插件才会启用-->
+
+</head>
+resources/templates/Axios/Axios.html
+
+<body>
+<script>
+    let data = {
+        "name": 'as',
+        'age': 12,
+        'as': "As",
+    }
+    let data2 = {
+        "name": 'asSAS',
+        'age': 121,
+        'as': "As",
+    }
+    var userdata = JSON.parse(JSON.stringify(data));
+    let post = axios.post('http://192.168.20.8:8080/axios/str11', userdata, {
+        // 设置headers
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+
+    // 为给定 ID 的 user 创建请求
+    function getUserPermissions() {
+        return post
+    }
+
+
+    function getUserAccount() {
+        return axios.post('http://192.168.20.8:8080/axios/str11', JSON.parse(JSON.stringify(data2)), {
+            // 设置headers
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+
+    }
+
+
+    axios.all([getUserAccount(), getUserPermissions()])
+        .then(axios.spread(function (acct, perms) {
+            // 两个请求都执行完成
+        }));
+
+</script>
+</body>
+</html>

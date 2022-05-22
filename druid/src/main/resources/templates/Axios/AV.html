@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" th:src="@{/js/axios.js}" src=""></script>
+    <script type="text/javascript" src="/js/axios.js"></script><!-- 加上此句话，（不管对应资源寸不存在）vue 插件才会启用-->
+    <script type="text/javascript" src="/js/vue.js"></script><!-- 加上此句话，（不管对应资源寸不存在）vue 插件才会启用-->
+</head>
+<body>
+templates/Axios/AV.html
+<HR align=left width=300 color=#987cb9 SIZE=10>
+<div id="setData">
+    <!-- v-model 默认收集 value 属性值 -->
+    <form @submit.prevent="demo"><!-- 阻止默认行为 -->
+        <label> 姓名：<input type="text" v-model.trim="userInfo.name"></label> <br/><br/>
+        年龄：<input type="number" v-model.number="userInfo.age"> <br/><br/>
+        <button>添加用户</button>
+
+    </form>
+</div>
+<script type="text/javascript">
+
+    Vue.config.productionTip = false
+    const mu = new Vue({
+        el: '#setData',
+        data: {
+            userInfo: {
+                name: '',
+                age: 18,
+            }
+        },
+        methods: {
+            demo() {
+                /*
+                * 整理成 json 格式
+                * */
+                console.log(JSON.stringify(this.userInfo))
+                axios.post('/axios/getReqBody', JSON.stringify(this.userInfo), {
+                        // 设置headers
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    }
+                )
+                    .then(response => {
+                        console.log(response);
+                        this.users = response.data
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+        }
+    })
+</script>
+<HR align=left width=300 color=#987cb9 SIZE=10>
+
+<div id="getData">
+    <!-- 遍历数组 -->
+    <h3>人员列表（遍历数组）</h3>
+    <button @click="getUsers">点我提示信息</button>
+    <button @click="sortType = 2">年龄升序</button>
+    <button @click="sortType = 1">年龄降序</button>
+    <button @click="sortType = 0">原顺序</button>
+    <br>
+    <input type="text" placeholder="请输入名字" v-model="keyWord">
+    <ul>
+        <li v-for=" u of filUsers" :key="u.id">
+            用户名{{ u.name }} 用户年龄{{u.age }}
+        </li>
+    </ul>
+
+</div>
+<script type="text/javascript">
+
+    Vue.config.productionTip = false
+    const vm = new Vue({
+        el: '#getData',
+        data: {
+            users: [],
+            keyWord: '',
+            sortType: 0, // 0原顺序 1降序 2升序
+        },
+        methods: {
+            getUsers() {
+                axios.get('/axios/sendData', {
+                    // 设置headers
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => {
+                        console.log(response);
+                        this.users = response.data
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+        },
+        computed: {
+            filUsers() {
+                const arr = this.users.filter((p) => {
+                    return p.name.indexOf(this.keyWord) !== -1
+                })
+                //判断一下是否需要排序
+                if (this.sortType) {/* 1,2 均为true*/
+                    arr.sort((p1, p2) => {
+                        return this.sortType === 1 ? p2.age - p1.age : p1.age - p2.age
+                    })
+                }
+                return arr
+            }
+        }
+    })
+</script>
+<HR align=left width=300 color=#987cb9 SIZE=10>
+
+
+</body>
+</html>
