@@ -1,5 +1,10 @@
 package com.eliza.spring.library.model
 
+import com.baomidou.mybatisplus.annotation.FieldFill
+import com.baomidou.mybatisplus.annotation.IdType
+import com.baomidou.mybatisplus.annotation.TableField
+import com.baomidou.mybatisplus.annotation.TableId
+
 
 /*-*- coding:utf-8 -*-
  * @Author  : debi
@@ -7,6 +12,10 @@ package com.eliza.spring.library.model
  * @Software: IntelliJ IDEA
  */
 class User() {
+    @TableId(type = IdType.ASSIGN_ID)
+    private val id: Long? = null
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private val time: Long? = null
     var name = ""
     var age = 0
 

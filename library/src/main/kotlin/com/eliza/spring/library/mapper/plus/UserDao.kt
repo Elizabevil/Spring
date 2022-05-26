@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage
 import com.eliza.spring.library.model.User
 import org.apache.ibatis.annotations.Delete
 import org.apache.ibatis.annotations.Insert
-import org.apache.ibatis.annotations.Mapper
 import org.apache.ibatis.annotations.Select
 import org.springframework.stereotype.Repository
 import java.io.Serializable
